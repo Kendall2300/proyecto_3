@@ -1,10 +1,14 @@
 from tkinter import ttk
 from tkinter import *
-#import sqlite3
+import sqlite3
 
 
 #Definiendo y creando la clase de productos/servicios a ofrecer
 class productos:
+
+	#Almacenando la base de datos dentro de la aplicación
+	db_name = "database.db"
+
 	#Programando el inicio y display de la aplicación
 	def __init__(self,window):
 		self.wind=window
@@ -31,6 +35,34 @@ class productos:
 		#Creando la tabla de servicios con su respectivo id
 		self.tree=ttk.Treeview(height=10,column=2)
 		self.tree.grid(row=4,column=0,columnspan=2)
+		self.tree.heading("#0", text="Nombre", anchor=CENTER)
+		self.tree.heading("#1", text="Precio", anchor=CENTER)
+
+		#Colocando los productos en la tabla de servicios
+		self.get_product()
+
+	#Llamando a la base de datos
+	def run_query(self,query,parameters = ()):
+		with sqlite3.connect(self.db_name) as conn:
+			cursor = conn.cursor()
+			result = cursor.execute(query, parameters)
+			conn.commit()
+		return result 
+	#Obteniendo los productos de la base de datos
+	def get_product(self):
+		#Limpiando los datos que están en la tabla
+		records = self.tree.get_children()
+		for element in records:
+			self.tree.delete(element)
+		query = "SELECT * FROM Product ORDER BY Nombre DESC"
+		db_rows = self.run_query(query)
+		#Recorriendo la lista de productos para insertarlos en la tabla
+		for row in db_rows:
+			self.tree.insert("", 0, text= row[1], values= row[2])
+
+
+
+
 
 #Iniciando la aplicación
 if __name__=='__main__':
