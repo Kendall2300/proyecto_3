@@ -34,16 +34,18 @@ class productos:
 		self.bservicios = ttk.Button(frame,text='Anadir servicio')#,command=self.add_service)
 		self.bservicios.grid(row=2,columnspan=3,sticky=W+E)
 
-		#Creando la tabla de servicios con su respectivo id
+		#Creando la tabla de servicios con su respectivo precio
 		self.tree=ttk.Treeview(height=10,columns=2)
 		self.tree.grid(row=1,column=0,columnspan=2,pady=5,padx=5)
 		self.tree.heading("#0", text="Nombre", anchor=CENTER)
-		self.tree.heading("#1", text="Precio", anchor=CENTER)
+		self.tree.heading("#1", text="Precio en $", anchor=CENTER)
 
 		#
 		frame2=LabelFrame(self.wind,text="Estos son los servicios agregados\n a su pedido")
 		frame2.grid(row=0,column=3,columnspan=3, pady=20)
 		Label(frame2,text="").grid(row=1,column=3)
+		self.print=ttk.Button(frame2,text="Imprimir")
+		self.print.grid(row=1,sticky=W+E)
 
 		#Creando la tabla de servicios contratados
 		self.treec=ttk.Treeview(heigh=10,columns=2)
