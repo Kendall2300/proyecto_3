@@ -134,7 +134,7 @@ class productos:
 			return
 		Nombre = self.treec.item(self.treec.selection())["text"]
 		query = "DELETE FROM Services WHERE Nombre = ?"
-		self.run_query(query, (Nombre, ))
+		self.run_query(query, (Nombre ))
 		self.message["text"] = "El servicio ha sido eliminado correctamente"
 		self.get_service()
 	
