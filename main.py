@@ -29,13 +29,18 @@ class productos:
 		self.service.grid(row=1,column=1)
 		self.service.focus()
 
+		#Introduccion del precio
+		Label(frame,text="Precio: ").grid(row=2,column=0)
+		self.price=Entry(frame)
+		self.price.grid(row=2,column=1)
+
 		#Boton de añadir servicio
-		self.bservicios = ttk.Button(frame,text='Anadir servicio')#,command=self.add_service)
-		self.bservicios.grid(row=2,columnspan=3,sticky=W+E)
+		self.bservicios = ttk.Button(frame,text='Anadir servicio',command=self.insertar_dato)
+		self.bservicios.grid(row=3,columnspan=3,sticky=W+E)
 
 		#Botón de eliminar servicio
-		self.delete = ttk.Button(frame, text = "Eliminar servicio",command=self.delete_service)
-		self.delete.grid(row=3,columnspan=4,sticky=W+E)
+		# self.delete = ttk.Button(frame, text = "Eliminar servicio",command=self.delete_service)
+		# self.delete.grid(row=4,columnspan=4,sticky=W+E)
 		
 		#Mensajes
 		self.message = Label(text = "", fg= "black")
@@ -49,10 +54,10 @@ class productos:
 
 		#
 		frame2=LabelFrame(self.wind,text="Estos son los servicios agregados\n a su pedido")
-		frame2.grid(row=0,column=3,columnspan=3, pady=20)
+		frame2.grid(row=0,column=3,columnspan=2, pady=20)
 		Label(frame2,text="").grid(row=1,column=3)
 		self.print=ttk.Button(frame2,text="Imprimir")
-		self.print.grid(row=1,sticky=W+E)
+		self.print.grid(row=1,columnspan=4,sticky=W+E)
 
 		#Creando la tabla de servicios contratados
 		self.treec=ttk.Treeview(heigh=10,columns=2)
@@ -62,7 +67,7 @@ class productos:
 
 		#Colocando los productos en la tabla de servicios
 		self.get_product()
-		self.get_service()
+		#self.get_service()
 	
 	#Llamando a la base de datos
 	def run_query(self,query,parameters = ()):
@@ -84,17 +89,34 @@ class productos:
 		for row in db_rows:
 			self.tree.insert("", 0, text= row[1],values=row[2])
 	
-	#Obtienendo la base de datos de la segunda tabla
-	def get_service(self):
-		#Limpiando los datos que están en la tabla
-		records = self.treec.get_children()
-		for element in records:
-			self.treec.delete(element)
-		query = "SELECT * FROM Services ORDER BY Nombre DESC"
-		db_rows = self.run_query(query)
-		#Recorriendo la lista de productos para insertarlos en la tabla
-		for row in db_rows:
-			self.treec.insert("", 0, text= row[1],values=row[2])
+	def validar_texto(self):
+		texto=[self.service.get()]
+		costo=[self.price.get()]
+		if isinstance(texto[0],str):
+			return texto[0]
+		else:
+			print("No es texto")
+
+	def insertar_dato(self):
+		texto=validar_texto()
+		self.treec.insert("",0, text=texto,values=costo[0])
+
+	
+
+
+
+
+	# #Obtienendo la base de datos de la segunda tabla
+	# def get_service(self):
+	# 	#Limpiando los datos que están en la tabla
+	# 	records = self.treec.get_children()
+	# 	for element in records:
+	# 		self.treec.delete(element)
+	# 	query = "SELECT * FROM Services ORDER BY Nombre DESC"
+	# 	db_rows = self.run_query(query)
+	# 	#Recorriendo la lista de productos para insertarlos en la tabla
+	# 	for row in db_rows:
+	# 		self.treec.insert("", 0, text= row[1],values=row[2])
 	
 	#def validation(self):
 		#if len(self.service.get())!=0:
@@ -126,17 +148,17 @@ class productos:
 	
 	
 	#Eliminar servicio
-	def delete_service(self):
-		try:
-			self.treec.item(self.treec.selection())["text"][0]
-		except IndexError as e:
-			self.message["text"] = "Por favor seleccione el servicio que desea eliminar"
-			return
-		Nombre = self.treec.item(self.treec.selection())["text"]
-		query = "DELETE FROM Services WHERE Nombre = ?"
-		self.run_query(query, (Nombre ))
-		self.message["text"] = "El servicio ha sido eliminado correctamente"
-		self.get_service()
+	# def delete_service(self):
+	# 	try:
+	# 		self.treec.item(self.treec.selection())["text"][0]
+	# 	except IndexError as e:
+	# 		self.message["text"] = "Por favor seleccione el servicio que desea eliminar"
+	# 		return
+	# 	Nombre = self.treec.item(self.treec.selection())["text"]
+	# 	query = "DELETE FROM Services WHERE Nombre = ?"
+	# 	self.run_query(query, (Nombre ))
+	# 	self.message["text"] = "El servicio ha sido eliminado correctamente"
+	# 	self.get_service()
 	
 #Iniciando la aplicación
 if __name__=='__main__':
