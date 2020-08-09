@@ -89,17 +89,10 @@ class productos:
 		for row in db_rows:
 			self.tree.insert("", 0, text= row[1],values=row[2])
 	
-	def validar_texto(self):
+	def insertar_dato(self):
 		texto=[self.service.get()]
 		costo=[self.price.get()]
-		if isinstance(texto[0],str):
-			return texto[0]
-		else:
-			print("No es texto")
-
-	def insertar_dato(self):
-		texto=validar_texto()
-		self.treec.insert("",0, text=texto,values=costo[0])
+		self.treec.insert("",0, text=texto[0],values=costo[0])
 
 	
 
