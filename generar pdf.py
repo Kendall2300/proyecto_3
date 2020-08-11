@@ -75,9 +75,18 @@ def facturar(registros):
             print("PDF generado", ok)
 
 
+<<<<<<< HEAD
     "print pdf"
     read_pdf = PyPDF2.PdfFileReader("samplefinish.pdf")
     number_of_pages = read_pdf.getNumPages()
     page = read_pdf.getPage(0)
     page_content = page.extractText()
     print (page_content)
+=======
+"print pdf"
+read_pdf = PyPDF2.PdfFileReader("samplefinish.pdf")
+number_of_pages = read_pdf.getNumPages()
+page = read_pdf.getPage(0)
+page_content = page.extractText()
+print (page_content)
+>>>>>>> ceaa1cbf9ef463192ffb276f7fe28aa16e44db26
