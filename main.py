@@ -1,4 +1,3 @@
-
 from tkinter import ttk
 from tkinter import *
 import sqlite3
@@ -18,7 +17,7 @@ class MainStream(tk.Tk):
 
         self.frames = {}
 
-        for F in (second_menu, productos):
+        for F in (second_menu, productos,recibos):
 
             frame = F(container, self)
 
@@ -47,9 +46,9 @@ class second_menu(tk.Frame):
 
         button_menu_services.pack(pady=10,padx=10)
 
-        #button_menu_recibos=tk.Button(self,text="Facturas Generadas",command=lambda:controller.show_frame())
+        button_menu_recibos=tk.Button(self,text="Facturas Generadas",command=lambda:controller.show_frame(recibos))
 
-        #button_menu_recibos.pack()
+        button_menu_recibos.pack(pady=10,padx=10)
 
 #Definiendo y creando la clase de productos/servicios a ofrecer
 class productos(tk.Frame):
@@ -58,8 +57,8 @@ class productos(tk.Frame):
 		tk.Frame.__init__(self,parent)
 		#label = tk.Label(self, text="Start Page")
 		#label.pack(pady=10,padx=10)
-		button = tk.Button(self, text="Volver a la pagina principal", command=lambda: controller.show_frame(second_menu))
-		button.pack(pady=10,padx=10)
+		button_second_menu = tk.Button(self, text="Volver a la pagina principal", command=lambda: controller.show_frame(second_menu))
+		button_second_menu.pack(pady=10,padx=10)
 
 		#Creando un los contendeores
 		big_box=LabelFrame(self)
@@ -131,10 +130,45 @@ class productos(tk.Frame):
 		costo=[self.price_entry.get()]
 		self.contratados_tree.insert("",0,text=texto[0],values=costo[0])
 
+class recibos(tk.Frame):
+	db_name = "database.db"
+	def __init__(self,parent,controller):
+		tk.Frame.__init__(self,parent)
+		button_second_menu=tk.Button(self,text="Menu principal",command=lambda:controller.show_frame(second_menu))
+		button_second_menu.pack(pady=10,padx=10)
 
+		#Creando el contenedor de la lista de pdf generados
+		main_box=LabelFrame(self,text="Estas son todas las facturas generadas",labelanchor=N)
+		main_box.pack(pady=15,padx=15)
 
+		#Creando la tabla de facturas generadas
+		self.facturas_tree=ttk.Treeview(main_box,height=10,columns=2)
+		self.facturas_tree.grid(row=0,column=0,pady=20,padx=20)
+		self.facturas_tree.heading("#0",text="Id de la factura",anchor=CENTER)
+		self.facturas_tree.heading("#1",text="Nombre de la factura",anchor=CENTER)
 
+		#Colocando las facturas en la tabla de servicios
+		self.get_recives()
 
+	#Llamando a la base de datos
+	def run_query_recives(self,query,parameters=()):
+		with sqlite3.connect(self.db_name) as conn:
+			cursor=conn.cursor()
+			result=cursor.execute(query,parameters)
+			conn.commit()
+		return result
+
+	#Obteniendo las facturas de la base de datos
+	def get_recives(self):
+		#Limpiando la base de datos
+		records=self.facturas_tree.get_children()
+		for elements in records:
+			self.facturas_tree.delete(elements)
+		query="SELECT * FROM Facturas ORDER BY nombre DESC"
+		db_rows=self.run_query_recives(query)
+		#Recorriendo la lista de productos para insertarlos en la tabla
+		for row in db_rows:
+			self.facturas_tree.insert("",0,values=row[1],text=row[0])
 
 
 #Iniciando la aplicación
