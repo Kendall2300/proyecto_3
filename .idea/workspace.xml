@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e353d932-2429-487b-9355-b018b08eb71d" name="Default Changelist" comment="V2.0  +1">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/known_faces/jeff bezos.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="e353d932-2429-487b-9355-b018b08eb71d" name="Default Changelist" comment="V2.0.1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -171,7 +167,7 @@
       <workItem from="1596421025277" duration="2577000" />
       <workItem from="1597185251989" duration="17869000" />
       <workItem from="1597223272781" duration="1696000" />
-      <workItem from="1597244869463" duration="3406000" />
+      <workItem from="1597244869463" duration="4081000" />
     </task>
     <task id="LOCAL-00001" summary="v1">
       <created>1596170990523</created>
@@ -292,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597245509569</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="V2.0.1">
+      <created>1597248323719</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1597248323719</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,7 +322,8 @@
     <MESSAGE value="V2.0 renovacion de archivos" />
     <MESSAGE value="V2.0" />
     <MESSAGE value="V2.0  +1" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2.0  +1" />
+    <MESSAGE value="V2.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2.0.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="607" y="246" key="#Notifications" timestamp="1597215855987">
@@ -362,10 +366,10 @@
       <screen x="78" y="0" width="1288" height="768" />
     </state>
     <state x="223" y="28" key="SettingsEditor/78.0.1288.768@78.0.1288.768" timestamp="1597244984606" />
-    <state x="550" y="120" key="Vcs.Push.Dialog.v2" timestamp="1597245526940">
+    <state x="550" y="120" key="Vcs.Push.Dialog.v2" timestamp="1597248352716">
       <screen x="78" y="0" width="1288" height="768" />
     </state>
-    <state x="550" y="120" key="Vcs.Push.Dialog.v2/78.0.1288.768@78.0.1288.768" timestamp="1597245526940" />
+    <state x="550" y="120" key="Vcs.Push.Dialog.v2/78.0.1288.768@78.0.1288.768" timestamp="1597248352716" />
     <state x="531" y="297" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597216014845">
       <screen x="78" y="0" width="1288" height="768" />
     </state>
