@@ -1,9 +1,9 @@
 from reportlab.pdfgen import canvas
 import PyPDF2
-c = canvas.Canvas('sample.pdf')
-c.save()
-pdf_file = open('sample.pdf')
-read_pdf = PyPDF2.PdfFileReader(pdf_file)
+#c = canvas.Canvas('sample.pdf')
+#c.save()
+#pdf_file = open('sample.pdf')
+#read_pdf = PyPDF2.PdfFileReader(pdf_file)
 
 import os
 import time
@@ -36,57 +36,47 @@ def facturar(registros):
 
     #login
 
-    if face_login =(false):
-        "return to login"
+    if face_login ==(false):
+      "return to login"
     else:
-
-        "build bill"
-        fepdf = FEPDF()
-        fepdf.CargarFormato("sample.pdf")
-        fepdf.FmtCantidad = "0.2"
-        fepdf.FmtPrecio = "0.2"
-        fepdf.CUIT = CUIT
-        for k, v in CONF_PDF.items():
+      "build bill"
+      fepdf = FEPDF()
+      fepdf.CargarFormato("sample.pdf")
+      fepdf.FmtCantidad = "0.2"
+      fepdf.FmtPrecio = "0.2"
+      fepdf.CUIT = CUIT
+      for k, v in CONF_PDF.items():
         fepdf.AgregarDato(k, v)
 
     
 
-        "registri data for bill + pdf generation"
-        for reg in 'registros':
-            hoy = datetime.date.today().strftime("%Y%m%d")
-            cbte = Comprobante(tipo_cbte=6, punto_vta=4000, fecha_cbte=hoy,
-                               cbte_nro=reg.get("nro"),
-                               tipo_doc=96, nro_doc=reg["dni"],
-                              nombre_cliente=reg["nombre"],      
-                               domicilio_cliente=reg["domicilio"],  
-                               fecha_serv_desde=reg.get("periodo_desde"),
-                               fecha_serv_hasta=reg.get("periodo_hasta"),
-                               fecha_venc_pago=reg.get("venc_pago", hoy),
-                              )
-           cbte.agregar_item(ds=reg["descripcion"],
-                              qty=reg.get("cantidad", 1),
-                              precio=reg.get("precio", 0),
-                              tasa_iva=reg.get("tasa_iva", 21.),
-                             )
+      "registri data for bill + pdf generation"
+      for reg in 'registros':
+          hoy = datetime.date.today().strftime("%Y%m%d")
+          cbte = Comprobante(tipo_cbte=6, punto_vta=4000, fecha_cbte=hoy,
+                            cbte_nro=reg.get("nro"),
+                            tipo_doc=96, nro_doc=reg["dni"],
+                            nombre_cliente=reg["nombre"],      
+                            domicilio_cliente=reg["domicilio"],  
+                            fecha_serv_desde=reg.get("periodo_desde"),
+                            fecha_serv_hasta=reg.get("periodo_hasta"),
+                            fecha_venc_pago=reg.get("venc_pago", hoy),
+                            )
+          cbte.agregar_item(ds=reg["descripcion"],
+                            qty=reg.get("cantidad", 1),
+                            precio=reg.get("precio", 0),
+                            tasa_iva=reg.get("tasa_iva", 21.), )
 
-            print("Factura autorizada")
+          print("Factura autorizada")
         
-            ok = cbte.generar_pdf(fepdf, "samplefinish.pdf".format(nro))
-            print("PDF generado", ok)
+          ok = cbte.generar_pdf(fepdf, "samplefinish.pdf".format(nro))
+          print("PDF generado", ok)
 
 
-<<<<<<< HEAD
-    "print pdf"
-    read_pdf = PyPDF2.PdfFileReader("samplefinish.pdf")
-    number_of_pages = read_pdf.getNumPages()
-    page = read_pdf.getPage(0)
-    page_content = page.extractText()
-    print (page_content)
-=======
-"print pdf"
-read_pdf = PyPDF2.PdfFileReader("samplefinish.pdf")
-number_of_pages = read_pdf.getNumPages()
-page = read_pdf.getPage(0)
-page_content = page.extractText()
-print (page_content)
->>>>>>> ceaa1cbf9ef463192ffb276f7fe28aa16e44db26
+
+# "print pdf"
+# read_pdf = PyPDF2.PdfFileReader("samplefinish.pdf")
+# number_of_pages = read_pdf.getNumPages()
+# page = read_pdf.getPage(0)
+# page_content = page.extractText()
+# print (page_content)
