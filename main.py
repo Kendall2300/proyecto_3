@@ -2,7 +2,7 @@ from tkinter import ttk
 import os
 import cv2
 from tkinter import *
-import face_recognition
+#import face_recognition
 import sqlite3
 import tkinter as tk
 
