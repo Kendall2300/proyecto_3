@@ -4,6 +4,16 @@ import face_recognition
 from tkinter import *
 
 
+def exito():
+    global screen
+    screen = Tk()
+    screen.geometry("300x250")
+    screen.title("Inicio de sesion")
+    Label(text="Has sido reconocido").pack()
+    Button(text="Continuar", height="2", width="30", command = second_menu).pack()
+
+    screen.mainloop()
+
 def Register():
     print("*work in progress*")
 
@@ -57,6 +67,8 @@ def Login():
                 cv2.rectangle(image, top_left, bottom_right, color, cv2.FILLED)
                 cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                             (0, 0, 0), FONT_THIKNESS)
+                return exito()
+
 
         cv2.imshow('filename', image)
         if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -71,9 +83,9 @@ def starting_screen():
     screen.geometry("300x250")
     screen.title("Inicio de sesion")
     Label(screen, text = "Inicio de sesion", bg = "grey", width = "300", height = "2", font = ("Calibri", 13)).pack()
-    Label(text = "").pack
+    Label(text = "").pack()
     Button(text="Login", height="2", width = "30", command =Login).pack()
-    Label(text="").pack
+    Label(text="").pack()
     Button(text="Register", height="2", width="30", command=Register).pack()
 
     screen.mainloop()
