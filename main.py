@@ -1,5 +1,8 @@
 from tkinter import ttk
+import os
+import cv2
 from tkinter import *
+import face_recognition
 import sqlite3
 import tkinter as tk
 
@@ -17,7 +20,7 @@ class MainStream(tk.Tk):
 
         self.frames = {}
 
-        for F in (second_menu, productos,recibos,añadir_productos):
+        for F in (second_menu, productos,recibos,añadir_productos,starting_screen,loggin):
 
             frame = F(container, self)
 
@@ -25,7 +28,7 @@ class MainStream(tk.Tk):
 
             frame.grid(row=0,column=0,sticky="nsew")
 
-        self.show_frame(second_menu)
+        self.show_frame(starting_screen)
 
     def show_frame(self,cont):
 
@@ -51,6 +54,7 @@ class second_menu(tk.Frame):
 
         button_menu_productos=tk.Button(self,text="Anadir Productos",command=lambda:controller.show_frame(añadir_productos))
         button_menu_productos.pack(pady=10,padx=10)
+
 
 #Definiendo y creando la clase de productos/servicios a ofrecer
 class productos(tk.Frame):
@@ -345,11 +349,64 @@ class añadir_productos(tk.Frame):
 		self.message['text'] = 'Record {} updated successfylly'.format(name)
 		self.get_products()
 
+class starting_screen(tk.Frame):
+	def __init__(self,parent,controller):
+		tk.Frame.__init__(self,parent)
+		tk.Button(text="Login", command =lambda:controller.show_frame(loggin)).pack()
+
+class loggin(tk.Frame):
+	def __init__(self,parent,controller):
+		tk.Frame.__init__(self,parent)
+		#tk.Button(self,text="Continuar", command =lambda:controller.show_frame(second_menu)).pack()
+		KNOWN_FACES_DIR = "./known_faces"
+		TOLERANCE = 0.6
+		FRAME_THIKNESS = 3
+		FONT_THIKNESS = 2
+		MODEL = "cnn"
+		video = cv2.VideoCapture(0)
+		print("loading known faces")
+		known_faces = []
+		known_names = []
+
+		for name in os.listdir(KNOWN_FACES_DIR):
+			for filename in os.listdir(KNOWN_FACES_DIR):
+				image = face_recognition.load_image_file(f"{KNOWN_FACES_DIR}/{filename}")
+				encoding = face_recognition.face_encodings(image)[0]
+				known_faces.append(encoding)
+				known_names.append(name)
+
+		print("procesing unknown faces")
+		while True:
+			ret, image = video.read()
+			rgb_image = image[:, :, ::-1]
+			locations = face_recognition.face_locations(rgb_image)
+			encodings = face_recognition.face_encodings(rgb_image, locations)
+			for face_encoding, face_location in zip(encodings, locations):
+				results = face_recognition.compare_faces(known_faces, face_encoding, TOLERANCE)
+				match = None
+				if True in results:
+					match = known_names[results.index(True)]
+					print(f"match found: {match}")
+					top_left = (face_location[3], face_location[0])
+					bottom_right = (face_location[1], face_location[2])
+					color = [0, 255, 0]
+					cv2.rectangle(image, top_left, bottom_right, color, FRAME_THIKNESS)
+					top_left = (face_location[3], face_location[2])
+					bottom_right = (face_location[1], face_location[2] + 22)
+					cv2.rectangle(image, top_left, bottom_right, color, cv2.FILLED)
+					cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), FONT_THIKNESS)
+					return self.second_menu
+
+			cv2.imshow('filename', image)
+			if cv2.waitKey(1) & 0xFF == ord("q"):
+				break
+
+
 
 
 
 
 
 #Iniciando la aplicación
-app= MainStream()
+app = MainStream()
 app.mainloop()
