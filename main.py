@@ -4,12 +4,12 @@ import face_recognition
 from tkinter import *
 
 
-def exito():
+def loggin_succes():
     global screen
     screen = Tk()
     screen.geometry("300x250")
     screen.title("Inicio de sesion")
-    Label(text="Has sido reconocido").pack()
+    Label(text="Has sido reconocido! :D").pack()
     Button(text="Continuar", height="2", width="30", command = second_menu).pack()
 
     screen.mainloop()
@@ -67,7 +67,7 @@ def Login():
                 cv2.rectangle(image, top_left, bottom_right, color, cv2.FILLED)
                 cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                             (0, 0, 0), FONT_THIKNESS)
-                return exito()
+                return loggin_succes()
 
 
         cv2.imshow('filename', image)
