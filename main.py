@@ -2,7 +2,7 @@ from tkinter import ttk
 import os
 import cv2
 from tkinter import *
-#import face_recognition
+import face_recognition
 import sqlite3
 import tkinter as tk
 
@@ -349,15 +349,9 @@ class añadir_productos(tk.Frame):
 		self.message['text'] = 'Record {} updated successfylly'.format(name)
 		self.get_products()
 
-class starting_screen(tk.Frame):
-	def __init__(self,parent,controller):
-		tk.Frame.__init__(self,parent)
-		tk.Button(text="Login", command =lambda:controller.show_frame(loggin)).pack()
-
 class loggin(tk.Frame):
 	def __init__(self,parent,controller):
 		tk.Frame.__init__(self,parent)
-		#tk.Button(self,text="Continuar", command =lambda:controller.show_frame(second_menu)).pack()
 		KNOWN_FACES_DIR = "./known_faces"
 		TOLERANCE = 0.6
 		FRAME_THIKNESS = 3
@@ -395,13 +389,16 @@ class loggin(tk.Frame):
 					bottom_right = (face_location[1], face_location[2] + 22)
 					cv2.rectangle(image, top_left, bottom_right, color, cv2.FILLED)
 					cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), FONT_THIKNESS)
-					return self.second_menu
+					return tk.Button(self,text="Continuar", command =lambda:controller.show_frame(second_menu)).pack()
 
 			cv2.imshow('filename', image)
 			if cv2.waitKey(1) & 0xFF == ord("q"):
 				break
 
-
+class starting_screen(tk.Frame):
+	def __init__(self,parent,controller):
+		tk.Frame.__init__(self,parent)
+		tk.Button(text="Login", command =lambda:controller.show_frame(loggin)).pack()
 
 
 
