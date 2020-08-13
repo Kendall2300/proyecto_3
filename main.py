@@ -32,7 +32,6 @@ class MainStream(tk.Tk):
         frame=self.frames[cont]
         frame.tkraise()
 
-
 class second_menu(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -56,7 +55,10 @@ class second_menu(tk.Frame):
 #Definiendo y creando la clase de productos/servicios a ofrecer
 class productos(tk.Frame):
 	db_name = "database.db"
+	right_box = None
 	def __init__(self, parent, controller):
+		global right_box
+
 		tk.Frame.__init__(self,parent)
 		#label = tk.Label(self, text="Start Page")
 		#label.pack(pady=10,padx=10)
@@ -105,20 +107,20 @@ class productos(tk.Frame):
 		self.contratados_tree.heading("#0",text="Nombre",anchor=CENTER)
 		self.contratados_tree.heading("#1",text="Precio en $",anchor=CENTER)
 
-		#------------
-		def subtotal():
-			subtotal=self.price_entry.get()
-			return subtotal
-		total=339
-		Label(right_box,text="Subtotal:  "+str(subtotal())+"$").grid(row=3,column=1)
+		Label(right_box,text="Subtotal:  " + "0 $").grid(row=3,column=1)
 		Label(right_box,text="Descuento: ").grid(row=4,column=1)
 		Label(right_box,text="Tax: %").grid(row=5,column=1)
-		Label(right_box,text="Total: "+str(total)+"$").grid(row=6,column=1)
+		Label(right_box,text="Total: 0 $").grid(row=6,column=1)
 		
 		#Colocando los productos en la tabla de servicios
 		self.get_products()
 
-	
+	#------------
+	def subtotal(self):
+		subtotal=self.price_entry.get()
+		return subtotal
+		print(subtotal)
+
 	#Llamando a la base de datos
 	def run_query(self,query,parameters=()):
 		with sqlite3.connect(self.db_name)as conn:
@@ -144,6 +146,11 @@ class productos(tk.Frame):
 		texto=[self.service_entry.get()]
 		costo=[self.price_entry.get()]
 		self.contratados_tree.insert("",0,text=texto[0],values=costo[0])
+
+		subtotal = self.subtotal()
+		print("SUBTOTAL ", subtotal)
+
+		Label(right_box,text="Subtotal:  " + str(subtotal) + "$").grid(row=3,column=1)
 
 class recibos(tk.Frame):
 	db_name = "database.db"
@@ -194,7 +201,8 @@ class recibos(tk.Frame):
 		db_rows=self.run_query_recives(query)
 		#Recorriendo la lista de productos para insertarlos en la tabla
 		for row in db_rows:
-			self.facturas_tree.insert("",0,values=row[0],text=row[1])
+			self.facturas_tree.insert("", "end", text=row[1], values=(row[0], row[2], row[3], row[4]))
+
 
 	def delete_product(self):
 		self.message['text'] = ''
@@ -209,9 +217,6 @@ class recibos(tk.Frame):
 		self.run_query_recives(query,(name,))
 		self.message['text']='Record {} deleted successfylly'.format(name)
 		self.get_recives()
-
-
-
 
 class añadir_productos(tk.Frame):
 	db_name = "database.db"
