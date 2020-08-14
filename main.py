@@ -62,7 +62,8 @@ class productos(tk.Frame):
 	right_box = None
 	def __init__(self, parent, controller):
 		global right_box
-
+		self.save_subtotal=0
+		self.save_total=0
 		tk.Frame.__init__(self,parent)
 		#label = tk.Label(self, text="Start Page")
 		#label.pack(pady=10,padx=10)
@@ -113,7 +114,7 @@ class productos(tk.Frame):
 
 		Label(right_box,text="Subtotal:  " + "0 $").grid(row=3,column=1)
 		Label(right_box,text="Descuento: ").grid(row=4,column=1)
-		Label(right_box,text="Tax: %").grid(row=5,column=1)
+		Label(right_box,text="Tax: 13%").grid(row=5,column=1)
 		Label(right_box,text="Total: 0 $").grid(row=6,column=1)
 		
 		#Colocando los productos en la tabla de servicios
@@ -121,10 +122,14 @@ class productos(tk.Frame):
 
 	#------------
 	def subtotal(self):
-		subtotal=self.price_entry.get()
+		subtotal=0+int(self.price_entry.get())
 		return subtotal
 		print(subtotal)
 
+	#----------
+	def total(self):
+		total=(0.13*(0+int(self.price_entry.get())))+(0+int(self.price_entry.get()))
+		return total
 	#Print
 	def print(self):
 		URL_WSAA = "login url"
@@ -185,11 +190,13 @@ class productos(tk.Frame):
 		texto=[self.service_entry.get()]
 		costo=[self.price_entry.get()]
 		self.contratados_tree.insert("",0,text=texto[0],values=costo[0])
-
 		subtotal = self.subtotal()
+		self.save_subtotal+=subtotal
+		total=self.total()
+		self.save_total+=total
 		print("SUBTOTAL ", subtotal)
-
-		Label(right_box,text="Subtotal:  " + str(subtotal) + "$").grid(row=3,column=1)
+		Label(right_box,text="Subtotal:  " + str(self.save_subtotal) + "$").grid(row=3,column=1)
+		Label(right_box,text="Total: "+str(self.save_total)+"$").grid(row=6,column=1)
 
 class recibos(tk.Frame):
 	db_name = "database.db"
